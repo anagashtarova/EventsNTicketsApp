@@ -1,0 +1,96 @@
+﻿@model EventsNTicketsApp.Models.ViewModels.EventTicketsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Availability of tickets</h2>
+
+<div>
+    <h4>Event</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(m => m.Event.Location)
+        </dt>
+         
+        <dd>
+            @Html.DisplayFor(model => model.Event.Location)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.DateTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.DateTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Event.Capacity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Event.Capacity)
+        </dd>
+
+    </dl>
+</div>
+<div>
+    <h4>Tickets</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @foreach (var item in Model.Tickets)
+        {
+
+            <dt>
+                Type
+            </dt>
+
+            <dd>
+                @item.Type
+            </dd>
+            <dt>
+                Block
+            </dt>
+
+            <dd>
+                @item.Block
+            </dd>
+
+            <dt>
+                Number of tickets of this type left:
+            </dt>
+
+            <dd>
+                @item.Quantity
+            </dd>
+            <dt>
+                
+            </dt>
+            <dd>
+                <a href="/Tickets/Details/@item.TicketId">Select</a>
+                @if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+                {
+
+                    <a href="/Tickets/Edit/@item.TicketId">Edit</a>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+
+                    <a href="/Tickets/Delete/@item.TicketId">Delete</a>
+                }
+                </dd>
+         }
+
+
+    </dl>
+</div>
+
+<p>
+    @if (User.IsInRole("Administrator"))
+    {
+    <a href="/Tickets/Create/@Model.Event.EventId">Create</a>
+    }
+        @Html.ActionLink("Back to List", "Index")
+    </p>

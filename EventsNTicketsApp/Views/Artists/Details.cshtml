@@ -1,0 +1,58 @@
+﻿@model EventsNTicketsApp.Models.Artist
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Artist</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ImageUrl)
+        </dt>
+
+        <dd>
+            <img src="@Model.ImageUrl" />
+        </dd>
+        <dt>
+            Biography
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Bio)
+        </dd>
+        <dt>
+            Listen to @Model.Name's latest song:
+
+        </dt>
+
+        <dd>
+            <iframe width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/@Model.VideoId"
+                    frameborder="0"
+                    allowfullscreen></iframe>
+        </dd>
+
+    </dl>
+    
+</div>
+<p>
+    @if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+    {
+        @Html.ActionLink("Edit", "Edit", new { id = Model.ArtistId })
+    }
+        |
+       @Html.ActionLink("Back to List", "Index")
+</p>

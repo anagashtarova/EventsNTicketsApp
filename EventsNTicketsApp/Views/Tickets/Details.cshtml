@@ -1,0 +1,109 @@
+﻿@model EventsNTicketsApp.Models.ViewModels.TicketToTicketSeatsViewModel
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+
+    <h4>Ticket details</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Ticket.Type)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ticket.Type)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ticket.Block)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ticket.Block)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ticket.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ticket.Quantity)
+        </dd>
+
+    </dl>
+</div>
+
+@if (Model.Ticket.Quantity == 0)
+{
+    <h4 style="color:red">There are no tickets of this type left...</h4>
+}
+else
+{
+
+<div>
+    <h4>Choose your preferable ticket</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        @foreach (var item in Model.TicketSeats)
+        {
+
+            <dt>
+                Row
+            </dt>
+
+            <dd>
+                @item.Row
+            </dd>
+            <dt>
+                Seat Number
+            </dt>
+
+            <dd>
+                @item.SeatNumber
+            </dd>
+
+            <dt>
+                Price
+            </dt>
+
+            <dd>
+                @item.Price
+            </dd>
+
+            <dt></dt>
+            <dd>
+                <a href="/Tickets/Checkout/@item.TicketSeatId">Buy this ticket!</a>
+            </dd>
+
+            <dt>
+
+            </dt>
+            <dd>
+                @if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+                {
+                    <a href="/TicketSeats/Edit/@item.TicketSeatId">Edit</a>
+                }
+                @if (User.IsInRole("Administrator"))
+                {
+                    <a href="/TicketSeats/Delete/@item.TicketSeatId">Delete</a>
+                }
+                </dd>
+        }
+
+
+    </dl>
+</div>
+}
+
+<p>
+    @if (User.IsInRole("Administrator"))
+    {
+        <a href="/TicketSeats/Create/@Model.Ticket.TicketId">Create</a>
+    }
+        <a href="/Events/Details/@Model.Ticket.EventId">Back to List</a>
+    </p>

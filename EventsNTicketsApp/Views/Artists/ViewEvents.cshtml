@@ -1,0 +1,81 @@
+﻿@model EventsNTicketsApp.Models.ViewModels.ArtistEventsViewModel
+
+@{
+    ViewBag.Title = "ViewEvents";
+}
+
+<h2>Events for @Model.Artist.Name</h2>
+
+<p>
+    @if (User.IsInRole("Administrator"))
+    {
+        @Html.ActionLink("Create New", "Create", "Events")
+    }
+</p>
+<table class="table" id="tabela">
+    <thead>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(m=>m.Artist.Name)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Events.FirstOrDefault().Location)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Events.FirstOrDefault().DateTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Events.FirstOrDefault().Price)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Events.FirstOrDefault().Capacity)
+        </th>
+        <th></th>
+    </tr>
+        </thead>
+    <tbody>
+        @foreach (var item in Model.Events)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Artist.Name)
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Capacity)
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator")|| User.IsInRole("Editor"))
+                    {
+                        <a href="/Events/Edit/@item.EventId">Edit</a>
+                    }
+                    |
+                    <a href="/Events/Details/@item.EventId">View tickets</a> |
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        <a href="/Events/Delete/@item.EventId">Delete</a>
+                    }
+
+                   
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $("#tabela").DataTable();
+        });
+    </script>
+    }

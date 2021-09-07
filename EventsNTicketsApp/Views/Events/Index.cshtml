@@ -1,0 +1,89 @@
+﻿@model IEnumerable<EventsNTicketsApp.Models.Event>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @if (User.IsInRole("Administrator"))
+    {
+    @Html.ActionLink("Create New", "Create")
+    }
+    </p>
+<table class="table" id="tabela">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Artist.Name)
+            </th>
+
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateTime)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @foreach (var elem in ViewBag.Artists)
+                    {
+                        if (elem.ArtistId == item.ArtistId)
+                        {
+                            <p>@elem.Name</p>
+                        }
+                    }
+                </td>
+
+                <td>
+                    @Html.DisplayFor(modelItem => item.Location)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DateTime)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Capacity)
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+                    {
+
+                        @Html.ActionLink("Edit", "Edit", new { id = item.EventId })
+                    }
+                    |
+                    @Html.ActionLink("View tickets", "Details", new { id = item.EventId }) |
+                    @if (User.IsInRole("Administrator"))
+                    {
+                       @Html.ActionLink("Delete", "Delete", new { id = item.EventId })
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table=$("#tabela").DataTable();
+        });
+
+    </script>
+    
+    }

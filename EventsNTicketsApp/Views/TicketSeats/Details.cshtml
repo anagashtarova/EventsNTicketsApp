@@ -1,0 +1,46 @@
+﻿@model EventsNTicketsApp.Models.TicketSeat
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TicketSeat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Row)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Row)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SeatNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SeatNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Price)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Price)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+    {
+    @Html.ActionLink("Edit", "Edit", new { id = Model.TicketSeatId })
+    }
+    |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,64 @@
+﻿@model IEnumerable<EventsNTicketsApp.Models.Artist>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Artists</h2>
+
+<p>
+    @if (User.IsInRole("Administrator"))
+    {
+        @Html.ActionLink("Create New", "Create")
+
+    }
+</p>
+<table class="table" id="tabela">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ImageUrl)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <img src="@item.ImageUrl" />
+                </td>
+                <td>
+                    @if (User.IsInRole("Administrator") || User.IsInRole("Editor"))
+                    {
+                        @Html.ActionLink("Edit", "Edit", new { id = item.ArtistId })
+                    }
+                    | @Html.ActionLink("Details", "Details", new { id = item.ArtistId }) |
+                    @if (User.IsInRole("Administrator"))
+                    {
+                        @Html.ActionLink("Delete", "Delete", new { id = item.ArtistId })
+                    }
+                    |
+                    @Html.ActionLink("View Events", "ViewEvents", new { id = item.ArtistId })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            var table = $("#tabela").DataTable();
+        });
+
+    </script>  
+    
+
+}
